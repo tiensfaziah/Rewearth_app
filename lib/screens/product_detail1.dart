@@ -86,19 +86,6 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // ✅ Ikon love
-                    const Padding(
-                      padding: EdgeInsets.only(right: 25, bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Colors.black,
-                          size: 26,
-                        ),
-                      ),
-                    ),
-
                     // ✅ Spesifikasi
                     const ProductSpecsCard(),
 
@@ -133,7 +120,7 @@ class ProductDetailScreen extends StatelessWidget {
                   child: const Icon(
                     Icons.arrow_back_ios_new,
                     size: 24,
-                    color: Colors.black, // supaya jelas di atas gambar
+                    color: Colors.black,
                   ),
                 ),
               ),

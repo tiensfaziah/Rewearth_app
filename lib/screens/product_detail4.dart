@@ -82,19 +82,6 @@ class ProductDetailScreen4 extends StatelessWidget {
                       ),
                     ),
 
-                    // ✅ Ikon love
-                    const Padding(
-                      padding: EdgeInsets.only(right: 25, bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Colors.black,
-                          size: 26,
-                        ),
-                      ),
-                    ),
-
                     // ✅ Spesifikasi produk
                     Container(
                       color: Colors.white,
@@ -179,46 +166,34 @@ class ProductDetailScreen4 extends StatelessWidget {
                 ),
               ),
 
-              // ✅ Tombol tetap di bawah
+              // ✅ Tombol tetap di bawah (chat saja, di tengah)
               Positioned(
-                left: 0,
-                right: 0,
+                left: 17,
+                right: 17,
                 bottom: 20,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 17),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF6A9CFD),
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/chatpemilik');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6A9CFD),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF6A9CFD),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Chat Pemilik',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                          ),
-                        ),
+                      elevation: 3,
+                    ),
+                    child: const Text(
+                      'Chat Pemilik',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Poppins',
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),

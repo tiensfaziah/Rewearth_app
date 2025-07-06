@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import '../widgets/tantangan_card.dart';
 import '../widgets/bottom_navigation.dart';
 import '../screens/setting.dart' as local;
+import '../screens/tantangan.dart';
+import '../screens/detail_tantangan.dart';
+import '../models/challenge.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -15,10 +18,27 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // 👉 contoh data dummy untuk challenge
+    final challenges = [
+      Challenge(
+        id: '1',
+        title: 'Tukar Barang',
+        description: 'Tukarkan 1 barang dan dapatkan 5000 poin!',
+        imageUrl: 'lib/assets/images/uniqlo.png',
+        progress: 0.0,
+        points: 5000,
+      ),
+      Challenge(
+        id: '2',
+        title: 'Donasi Barang',
+        description: 'Donasikan barangmu 1x dan dapatkan 5000 poin!',
+        imageUrl: 'lib/assets/images/uniqlo.png',
+        progress: 0.0,
+        points: 5000,
+      ),
+    ];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -106,10 +126,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           Positioned(
                             bottom: 0,
-                            right: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.32,
+                            right: MediaQuery.of(context).size.width * 0.32,
                             child: Container(
                               width: 24,
                               height: 24,
@@ -162,7 +179,7 @@ class ProfileScreen extends StatelessWidget {
                           const SizedBox(width: 6),
                           Text(
                             '$points poin',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -184,11 +201,12 @@ class ProfileScreen extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(19, 32, 19, 100),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
+                            // ✅ Lihat Semua bisa diklik
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   'Tantangan',
                                   style: TextStyle(
                                     color: Colors.black,
@@ -197,27 +215,64 @@ class ProfileScreen extends StatelessWidget {
                                     fontFamily: 'SF Pro',
                                   ),
                                 ),
-                                Text(
-                                  'Lihat Semua',
-                                  style: TextStyle(
-                                    color: Color(0xFF888888),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'SF Pro',
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const ChallengeScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Lihat Semua',
+                                    style: TextStyle(
+                                      color: Color(0xFF888888),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'SF Pro',
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 15),
-                            ChallengeCard(
-                              title: 'Tukarkan 1 barang dan dapatkan 5000 poin!',
-                              progressText: '0%',
-                              progressValue: 0.0,
+                            const SizedBox(height: 15),
+
+                            // ✅ Klik kartu ➜ Detail
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChallengeDetailScreen(
+                                      challenge: challenges[0],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const ChallengeCard(
+                                title: 'Tukarkan 1 barang dan dapatkan 5000 poin!',
+                                progressText: '0%',
+                                progressValue: 0.0,
+                              ),
                             ),
-                            ChallengeCard(
-                              title: 'Donasikan barangmu 1x dan dapatkan 5000 poin!',
-                              progressText: '0%',
-                              progressValue: 0.0,
+                            const SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChallengeDetailScreen(
+                                      challenge: challenges[1],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const ChallengeCard(
+                                title: 'Donasikan barangmu 1x dan dapatkan 5000 poin!',
+                                progressText: '0%',
+                                progressValue: 0.0,
+                              ),
                             ),
                           ],
                         ),

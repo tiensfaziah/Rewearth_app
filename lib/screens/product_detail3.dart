@@ -17,12 +17,10 @@ class ProductDetailScreen3 extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              // ✅ Konten scrollable
               SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ✅ Gambar + overlay teks "Detail Barang"
                     Stack(
                       children: [
                         Container(
@@ -59,7 +57,6 @@ class ProductDetailScreen3 extends StatelessWidget {
                       ],
                     ),
 
-                    // ✅ Nama produk + label
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       child: Row(
@@ -86,31 +83,13 @@ class ProductDetailScreen3 extends StatelessWidget {
                       ),
                     ),
 
-                    // ✅ Ikon love
-                    const Padding(
-                      padding: EdgeInsets.only(right: 25, bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Colors.black,
-                          size: 26,
-                        ),
-                      ),
-                    ),
-
-                    // ✅ Spesifikasi
                     const ProductSpecsCards3(),
-
-                    // ✅ Deskripsi
                     const DescriptionCard3(),
-
-                    const SizedBox(height: 100), // buat spasi tombol bawah
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),
 
-              // ✅ Tombol tetap di bawah
               const Positioned(
                 left: 0,
                 right: 0,
@@ -118,7 +97,6 @@ class ProductDetailScreen3 extends StatelessWidget {
                 child: ActionButtonsWidget3(),
               ),
 
-              // ✅ PANAH BACK KE BERANDA
               Positioned(
                 top: MediaQuery.of(context).padding.top + 16,
                 left: 16,

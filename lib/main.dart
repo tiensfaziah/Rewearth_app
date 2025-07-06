@@ -29,6 +29,9 @@ import 'package:rewearth/screens/chatpemilik.dart';
 import 'package:rewearth/screens/tantangan.dart';
 import 'package:rewearth/screens/detail_tantangan.dart';
 import 'package:rewearth/screens/produkmu.dart';
+import 'package:rewearth/screens/total_poin_screen.dart';
+import 'screens/ubah_password_screen.dart';
+import 'screens/lupa_password_screen.dart';
 
 // ✅ Import halaman onboarding
 import 'package:rewearth/screens/boarding.dart';
@@ -36,6 +39,10 @@ import 'package:rewearth/screens/boarding.dart';
 // ✅ Import halaman yang butuh arguments
 import 'package:rewearth/screens/takefotoSR.dart';
 import 'package:rewearth/screens/rincian_donasi.dart';
+import 'screens/kategori_baju_screen.dart';
+import 'screens/kategori_celana_screen.dart';
+import 'screens/kategori_kain_screen.dart';
+import 'screens/kategori_rok_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,6 +106,14 @@ class MyApp extends StatelessWidget {
         '/notif': (context) => const notifScreen(),
         '/chat': (context) => const chatScreen(),
         '/chatpemilik': (context) => const ChatPemilik(),
+        '/totalpoin': (context) => const TotalPoinScreen(),
+        '/ubahpassword': (context) => const UbahPasswordScreen(), // ✅
+        '/lupapassword': (context) => const LupaPasswordScreen(), // ✅
+        '/kategori-baju': (context) => const KategoriBajuScreen(),
+        '/kategori-celana': (context) => const KategoriCelanaScreen(),
+        '/kategori-kain': (context) => const KategoriKainScreen(),
+        '/kategori-rok': (context) => const KategoriRokScreen(),
+
       },
 
       // ✅ Route dengan arguments

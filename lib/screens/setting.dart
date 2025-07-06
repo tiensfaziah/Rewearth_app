@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/profil_settings.dart';
 import '../widgets/info_field_widget_settings.dart';
 import '../widgets/menu_item_widget_settings.dart';
+import '../screens/login_screen.dart';
+import '../screens/riwayat.dart';
+import 'total_poin_screen.dart';
+import 'ubah_password_screen.dart';
+import 'lupa_password_screen.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  final TextEditingController _nameController = TextEditingController(text: 'El Timiji');
 
   @override
   Widget build(BuildContext context) {
@@ -13,26 +26,25 @@ class Settings extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            // ✅ Isi konten scrollable
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 24), // ruang buat panah
+                  const SizedBox(height: 24),
                   const Text(
                     'Pengaturan',
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                   const SizedBox(height: 20),
                   const ProfileAvatarWidget(),
                   const SizedBox(height: 23),
 
-                  // Informasi Diri
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -42,12 +54,21 @@ class Settings extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                         height: 2.25,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
                   const SizedBox(height: 7),
-                  const InfoFieldWidget(label: 'Nama', value: 'El Timiji'),
+
+                  TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Nama',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                   const SizedBox(height: 10),
+
                   const InfoFieldWidget(label: 'Nomor Telepon', value: '08123456789'),
                   const SizedBox(height: 10),
                   const InfoFieldWidget(
@@ -57,7 +78,6 @@ class Settings extends StatelessWidget {
                   ),
                   const SizedBox(height: 29),
 
-                  // Umum
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -67,10 +87,12 @@ class Settings extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                         height: 2.25,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
                   const SizedBox(height: 7),
+
                   MenuItemWidget(
                     iconPath: 'lib/assets/images/produkmu.png',
                     title: 'Produkmu',
@@ -79,19 +101,31 @@ class Settings extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 14),
-                  const MenuItemWidget(
+
+                  MenuItemWidget(
                     iconPath: 'lib/assets/images/coinblack.png',
                     title: 'Total Poin',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const TotalPoinScreen()),
+                      );
+                    },
                   ),
                   const SizedBox(height: 14),
-                  const MenuItemWidget(
+
+                  MenuItemWidget(
                     iconPath: 'lib/assets/images/riwayat.png',
                     title: 'Riwayat Transaksi',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const RiwayatScreen()),
+                      );
+                    },
                   ),
-
                   const SizedBox(height: 21),
 
-                  // Keamanan
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -101,30 +135,76 @@ class Settings extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                         height: 2.25,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
                   const SizedBox(height: 7),
-                  const MenuItemWidget(
+
+                  MenuItemWidget(
                     iconPath: 'lib/assets/images/ubah_password.png',
                     title: 'Ubah Password',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const UbahPasswordScreen()),
+                      );
+                    },
                   ),
                   const SizedBox(height: 14),
-                  const MenuItemWidget(
+
+                  MenuItemWidget(
                     iconPath: 'lib/assets/images/lupa_password.png',
                     title: 'Lupa Password',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const LupaPasswordScreen()),
+                      );
+                    },
                   ),
                   const SizedBox(height: 14),
-                  const MenuItemWidget(
-                    iconPath: 'lib/assets/images/keamanan.png',
-                    title: 'Keamanan',
+
+                  // Logout manual tanpa pakai MenuItemWidget
+                  GestureDetector(
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      if (!mounted) return;
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => const Login()),
+                            (route) => false,
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          margin: const EdgeInsets.only(right: 10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF1F1F1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(Icons.logout, size: 20, color: Colors.black),
+                        ),
+                        const Text(
+                          'Logout',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 20),
+
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
 
-            // ✅ Panah kembali ke halaman Profile
             Positioned(
               top: MediaQuery.of(context).padding.top + 10,
               left: 16,

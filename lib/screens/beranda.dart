@@ -8,6 +8,10 @@ import '../screens/product_detail3.dart';
 import '../screens/product_detail4.dart';
 import '../screens/donasi.dart';
 import '../screens/voucher.dart';
+import '../screens/kategori_baju_screen.dart';
+import '../screens/kategori_celana_screen.dart';
+import '../screens/kategori_kain_screen.dart';
+import '../screens/kategori_rok_screen.dart';
 
 class Beranda extends StatelessWidget {
   const Beranda({Key? key}) : super(key: key);
@@ -62,7 +66,6 @@ class Beranda extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                // ✅ navigasi ke notif
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(context, '/notif');
@@ -70,7 +73,6 @@ class Beranda extends StatelessWidget {
                                   child: Image.asset('lib/assets/images/notif.png', width: 20, height: 20),
                                 ),
                                 const SizedBox(width: 22),
-                                // ✅ navigasi ke chat
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(context, '/chat');
@@ -201,10 +203,42 @@ class Beranda extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              kategoriCard('lib/assets/images/Kategori1.png', 'Baju'),
-                              kategoriCard('lib/assets/images/kategori2.png', 'Celana'),
-                              kategoriCard('lib/assets/images/kategori3.png', 'Kain'),
-                              kategoriCard('lib/assets/images/kategori4.png', 'Rok'),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const KategoriBajuScreen()),
+                                  );
+                                },
+                                child: kategoriCard('lib/assets/images/Kategori1.png', 'Baju'),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const KategoriCelanaScreen()),
+                                  );
+                                },
+                                child: kategoriCard('lib/assets/images/kategori2.png', 'Celana'),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const KategoriKainScreen()),
+                                  );
+                                },
+                                child: kategoriCard('lib/assets/images/kategori3.png', 'Kain'),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const KategoriRokScreen()),
+                                  );
+                                },
+                                child: kategoriCard('lib/assets/images/kategori4.png', 'Rok'),
+                              ),
                             ],
                           ),
                         ),
