@@ -117,6 +117,26 @@ class ProductDetailScreen extends StatelessWidget {
                 bottom: 20,
                 child: ActionButtonsWidget(),
               ),
+
+              // ✅ PANAH KEMBALI KE BERANDA
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16,
+                left: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/beranda',
+                          (route) => false,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 24,
+                    color: Colors.black, // supaya jelas di atas gambar
+                  ),
+                ),
+              ),
             ],
           ),
         ),

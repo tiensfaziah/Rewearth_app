@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/weight_selector_SR.dart';
+import 'kirimTB.dart';
 
 class DonationDescriptionScreenUniqlo extends StatefulWidget {
   const DonationDescriptionScreenUniqlo({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class _DonationDescriptionScreenUniqloState extends State<DonationDescriptionScr
           builder: (context, constraints) {
             return Stack(
               children: [
-                // ✅ Scrollable content
+                // ✅ Konten scrollable
                 SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 100),
                   child: ConstrainedBox(
@@ -52,6 +53,7 @@ class _DonationDescriptionScreenUniqloState extends State<DonationDescriptionScr
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const SizedBox(height: 40),
                             const Center(
                               child: Text(
                                 'Deskripsi Donasi',
@@ -65,7 +67,7 @@ class _DonationDescriptionScreenUniqloState extends State<DonationDescriptionScr
                             ),
                             const SizedBox(height: 22),
 
-                            // ✅ Ganti logo dan nama brand
+                            // ✅ Logo dan nama brand
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -158,14 +160,21 @@ class _DonationDescriptionScreenUniqloState extends State<DonationDescriptionScr
                   ),
                 ),
 
-                // ✅ Tombol ke halaman kode donasi
+                // ✅ Tombol panah back (tidak ketimpa)
+                const Positioned(
+                  top: 40,
+                  left: 16,
+                  child: _BackToKirimTBButton(),
+                ),
+
+                // ✅ Tombol “Dapatkan Kode”
                 Positioned(
                   left: 0,
                   right: 0,
-                  bottom: 5, // bisa sesuaikan lagi kalau mau naik/turun
+                  bottom: 5,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/donation_code');
+                      Navigator.pushNamed(context, '/donasi');
                     },
                     child: Container(
                       height: 50,
@@ -199,6 +208,28 @@ class _DonationDescriptionScreenUniqloState extends State<DonationDescriptionScr
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+// ✅ Komponen panah kembali
+class _BackToKirimTBButton extends StatelessWidget {
+  const _BackToKirimTBButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const KirimTBUniqloScreen()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.black,
+        size: 24,
       ),
     );
   }

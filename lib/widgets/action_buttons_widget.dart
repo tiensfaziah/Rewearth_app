@@ -11,7 +11,7 @@ class ActionButtonsWidget extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(17, 30, 17, 0),
       child: Row(
         children: [
-          // Cart button
+          // ✅ Cart button
           Container(
             width: 50,
             height: 50,
@@ -27,7 +27,24 @@ class ActionButtonsWidget extends StatelessWidget {
               ],
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text(
+                      'Berhasil ditambahkan ke keranjang',
+                      style: TextStyle(fontFamily: 'Poppins'),
+                    ),
+                    backgroundColor: const Color(0xFF6A9CFD),
+                    behavior: SnackBarBehavior.floating,
+                    margin: const EdgeInsets.only(
+                      bottom: 80,
+                      left: 20,
+                      right: 20,
+                    ),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.shopping_cart,
                 color: Colors.white,
@@ -35,8 +52,10 @@ class ActionButtonsWidget extends StatelessWidget {
               ),
             ),
           ),
+
           const SizedBox(width: 16),
-          // Chat button
+
+          // ✅ Chat button
           Expanded(
             child: Container(
               height: 50,
@@ -52,7 +71,9 @@ class ActionButtonsWidget extends StatelessWidget {
                 ],
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/chatpemilik');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6A9CFD),
                   elevation: 0,

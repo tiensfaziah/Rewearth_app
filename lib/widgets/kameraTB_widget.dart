@@ -11,7 +11,7 @@ class KameratbWidget extends StatelessWidget {
 
         // Title
         const Text(
-          'Donasi',
+          'Takeback',
           style: TextStyle(
             color: Colors.black,
             fontSize: 17,

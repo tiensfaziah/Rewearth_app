@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rewearth/screens/voucher.dart'; // ← halaman voucher utama
 
 class VoucherDetailScreen extends StatelessWidget {
   const VoucherDetailScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class VoucherDetailScreen extends StatelessWidget {
           children: [
             // ✅ Konten scrollable
             SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 900), // kasih ruang bawah
+              padding: const EdgeInsets.only(bottom: 900),
               child: Container(
                 width: double.infinity,
                 constraints: const BoxConstraints(maxWidth: 480),
@@ -20,7 +21,7 @@ class VoucherDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
-                    Center( // ⬅️ posisi tengah
+                    Center(
                       child: Text(
                         'Detail Voucher',
                         style: TextStyle(
@@ -44,15 +45,14 @@ class VoucherDetailScreen extends StatelessWidget {
               ),
             ),
 
-            // ✅ Tombol fixed di bawah
+            // ✅ Tombol tetap di bawah
             Positioned(
               left: 0,
               right: 0,
-              bottom: MediaQuery.of(context).padding.bottom + 0, // fleksibel di semua device
+              bottom: MediaQuery.of(context).padding.bottom + 0,
               child: _BottomSendButton(
                 label: 'Tukar Poin',
                 onTap: () {
-                  // ✅ Tampilkan dialog konfirmasi
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -77,7 +77,7 @@ class VoucherDetailScreen extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop(); // tutup dialog
+                            Navigator.of(context).pop();
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               '/beranda',
@@ -99,8 +99,37 @@ class VoucherDetailScreen extends StatelessWidget {
                 },
               ),
             ),
+
+            // ✅ Panah back ke halaman voucher utama
+            const Positioned(
+              top: 40,
+              left: 16,
+              child: _BackToVoucherScreenButton(),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ✅ Panah back konsisten
+class _BackToVoucherScreenButton extends StatelessWidget {
+  const _BackToVoucherScreenButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const PointsExchangeScreen()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.black, // karena background putih
+        size: 24,
       ),
     );
   }

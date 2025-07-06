@@ -12,52 +12,45 @@ class ProductDetailScreen2 extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFE1DFDF),
       body: SafeArea(
-        // ✅ top: false dihapus supaya status bar bawaan tetap tampil
         child: SizedBox(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              // Main content
+              // ✅ Konten Utama Scrollable
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Main image section
+                    // ✅ Gambar utama + teks overlay
                     Container(
                       width: double.infinity,
                       height: 481,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('lib/assets/images/baju2.png'), // ✅ Ganti pakai lokal
+                          image: AssetImage('lib/assets/images/baju2.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
                       child: Stack(
                         children: [
-                          // Detail Barang title
-                          Positioned(
+                          // ✅ Judul overlay
+                          const Positioned(
                             left: 134,
                             top: 77,
-                            child: Container(
-                              width: 124,
-                              height: 22,
-                              alignment: Alignment.center,
-                              child: const Text(
-                                'Detail Barang',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'Poppins',
-                                  shadows: [
-                                    Shadow(
-                                      offset: Offset(0, 4),
-                                      blurRadius: 4,
-                                      color: Color.fromRGBO(0, 0, 0, 0.25),
-                                    ),
-                                  ],
-                                ),
-                                textAlign: TextAlign.center,
+                            child: Text(
+                              'Detail Barang',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Poppins',
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(0, 4),
+                                    blurRadius: 4,
+                                    color: Color.fromRGBO(0, 0, 0, 0.25),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -65,13 +58,13 @@ class ProductDetailScreen2 extends StatelessWidget {
                       ),
                     ),
 
-                    // Product info section
+                    // ✅ Info Produk
                     const ProductInfoWidget(),
 
-                    // Specifications section
+                    // ✅ Spesifikasi
                     const SpecificationsWidget(),
 
-                    // Description section
+                    // ✅ Deskripsi
                     const DescriptionWidget(),
 
                     const SizedBox(height: 70),
@@ -79,14 +72,32 @@ class ProductDetailScreen2 extends StatelessWidget {
                 ),
               ),
 
-              // ✅ Hapus StatusBarWidget, tidak dipakai
-
-              // Action buttons at bottom
+              // ✅ Tombol di bawah tetap
               const Positioned(
                 left: 17,
                 bottom: 20,
                 right: 17,
                 child: ActionButtonsWidget(),
+              ),
+
+              // ✅ PANAH KEMBALI KE BERANDA
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16,
+                left: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/beranda',
+                          (route) => false,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),

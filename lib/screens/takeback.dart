@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/brand_cardTB.dart';
-import 'kirimTB.dart'; // Pastikan file ini sudah ada
+import 'kirimTB.dart';
+import 'beranda.dart'; // tambahkan import ke halaman beranda
 
 class TakeBackScreen extends StatelessWidget {
   const TakeBackScreen({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class TakeBackScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Header background
+          // ✅ Background Header
           Positioned(
             top: 0,
             left: 0,
@@ -36,7 +37,14 @@ class TakeBackScreen extends StatelessWidget {
             ),
           ),
 
-          // Title
+          // ✅ Tombol Panah Back
+          const Positioned(
+            top: 40,
+            left: 16,
+            child: _BackToHomeButton(),
+          ),
+
+          // ✅ Judul
           Positioned(
             left: screenWidth > 640 ? 36 : screenWidth * 0.05,
             top: 100,
@@ -51,7 +59,7 @@ class TakeBackScreen extends StatelessWidget {
             ),
           ),
 
-          // Description
+          // ✅ Deskripsi
           Positioned(
             left: screenWidth > 640 ? 36 : screenWidth * 0.05,
             top: 130,
@@ -67,9 +75,9 @@ class TakeBackScreen extends StatelessWidget {
             ),
           ),
 
-          // Content list
+          // ✅ Konten
           Positioned.fill(
-            top: 220,
+            top: 300,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -103,6 +111,28 @@ class TakeBackScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ✅ Komponen Panah Kembali
+class _BackToHomeButton extends StatelessWidget {
+  const _BackToHomeButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Beranda()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.white,
+        size: 24,
       ),
     );
   }

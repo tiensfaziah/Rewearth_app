@@ -13,6 +13,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.7
   fluttertoast: ^8.2.4  # ✅ Tambahan untuk notifikasi toast
+  image_picker: ^1.0.7 # atau versi terbaru yang tersedia
+  camera: ^0.10.5+9
+
 
 dev_dependencies:
   flutter_test:
@@ -66,5 +69,6 @@ flutter:
     - lib/assets/images/hm.png
     - lib/assets/images/zara.png
     - lib/assets/images/voucher-uniqlo.png
-    - lib/assets/images/icon_verifikasi.png   # ✅ pastikan ikon ini juga ditambahkan
-
+    - lib/assets/images/icon_verifikasi.png
+    - lib/assets/images/logoAPK.png
+    - lib/assets/images/logoAPK2.png

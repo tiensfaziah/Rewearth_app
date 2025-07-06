@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../widgets/tantangan_card2.dart';
 import '../models/challenge.dart';
+import 'beranda.dart';
 
 class ChallengeScreen extends StatelessWidget {
   const ChallengeScreen({Key? key}) : super(key: key);
@@ -8,6 +10,14 @@ class ChallengeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
+    // ✅ Biar status bar transparan & ikon putih
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
 
     final challenges = [
       Challenge(
@@ -57,6 +67,13 @@ class ChallengeScreen extends StatelessWidget {
             ),
           ),
 
+          // ✅ Tombol Panah Back
+          const Positioned(
+            top: 40,
+            left: 16,
+            child: _BackToHomeButton(),
+          ),
+
           // ✅ Judul
           Positioned(
             left: screenWidth > 640 ? 36 : 30,
@@ -103,6 +120,28 @@ class ChallengeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ✅ Komponen Tombol Panah Back
+class _BackToHomeButton extends StatelessWidget {
+  const _BackToHomeButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Beranda()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.white,
+        size: 24,
       ),
     );
   }

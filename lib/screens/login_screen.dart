@@ -7,14 +7,14 @@ import '../widgets/social_login_button.dart';
 import 'registration_screen.dart';
 import 'beranda.dart'; // pastikan nama file dan class sesuai
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<Login> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -51,6 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 70),
+
+                      // Logo App
+                      Image.asset(
+                        'lib/assets/images/logoAPK.png', // ganti sesuai path logo kamu
+                        width: 140,
+                        height: 140,
+                        fit: BoxFit.cover,
+                      ),
+                      const SizedBox(height: 20),
 
                       // Welcome Title
                       const Text(

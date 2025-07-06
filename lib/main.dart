@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rewearth/screens/chat.dart';
+import 'package:rewearth/screens/chatpemilik.dart';
 
 // ✅ Import semua screen
 import 'package:rewearth/screens/donasi_desc.dart';
@@ -11,25 +13,32 @@ import 'package:rewearth/screens/login_screen.dart';
 import 'package:rewearth/screens/beranda.dart';
 import 'package:rewearth/screens/clothing_screen.dart';
 import 'package:rewearth/screens/video.dart';
-import 'package:rewearth/screens/kameraSR.dart'; // ✅ Tetap gunakan
-import 'package:rewearth/screens/takefotoSR.dart'; // ✅ Tetap gunakan
+import 'package:rewearth/screens/kameraSR.dart';
+import 'package:rewearth/screens/takefotoSR.dart';
 import 'package:rewearth/screens/rincian_donasi.dart';
 import 'package:rewearth/screens/verifSR.dart';
 import 'package:rewearth/screens/takeback.dart';
 import 'package:rewearth/screens/descTB.dart';
 import 'package:rewearth/screens/kode_donasi2.dart';
 import 'package:rewearth/widgets/kameraTB_widget.dart';
-import 'package:rewearth/screens/kameraTB.dart';
 import 'package:rewearth/screens/tantangan.dart';
 import 'package:rewearth/screens/detail_tantangan.dart';
+import 'package:rewearth/screens/produkmu.dart';
+import 'package:rewearth/screens/kirimSR.dart';
+import 'package:rewearth/screens/takefotoTB.dart';
+import 'package:rewearth/screens/setting.dart';
+import 'package:rewearth/screens/camera_real_screen.dart';
+import 'package:rewearth/screens/notif.dart';
+import 'package:rewearth/screens/chat.dart';
+
+// ✅ Import halaman onboarding
+import 'package:rewearth/screens/boarding.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ✅ Status bar terlihat (bukan immersive mode)
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  // ✅ Style status bar
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
@@ -53,11 +62,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
-      // ✅ Halaman awal aplikasi
-      home: const LoginScreen(),
+      // ✅ Halaman awal: onboarding
+      home: const OnboardingScreen(
+        imageAsset: 'lib/assets/images/logoAPK.png',
+      ),
 
-      // ✅ Daftar navigasi antar halaman
+      // ✅ Route normal tanpa arguments
       routes: {
+        '/login': (context) => const Login(),
         '/beranda': (context) => const Beranda(),
         '/clothing': (context) => const ClothingScreen(),
         '/video': (context) => const VideoScreen(),
@@ -65,8 +77,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfileScreen(),
         '/donasi_desc': (context) => const DonationDescriptionScreenSR(),
         '/donation_code': (context) => const DonationShippingCodeScreen(),
-        '/kamera_sr': (context) => const KameraSRScreen(), // ✅ Tetap tersedia
-        '/takefoto': (context) => const TakeFoto(),         // ✅ Navigasi ke preview foto palsu
+        '/kamera_sr': (context) => const KameraSRScreen(),
         '/rincian_donasi': (context) => const DonationDetailsScreen(),
         '/verifikasi': (context) => const VerificationSuccessScreen(),
         '/takeback': (context) => const TakeBackScreen(),
@@ -74,8 +85,29 @@ class MyApp extends StatelessWidget {
         '/donasi': (context) => const DonationShippingCodeScreen2(),
         '/kamera_tb': (context) => const KameraTBScreen(),
         '/tantangan': (context) => const ChallengeScreen(),
+        '/produkmu': (context) => const ProductListingScreen(),
+        '/kirimSR': (context) => const CaraMengirimBarangScreen(),
+        '/TakeBack': (context) => const TakeBackScreen(),
+        '/takefotoTB': (context) => const TakeFotoTB(),
+        '/Settings': (context) => const Settings(),
+        '/camerareal': (context) => const CameraRealScreen(),
+        '/notif': (context) => const notifScreen(),
+        '/chat': (context) => const chatScreen(),
+        '/chatpemilik': (context) => const ChatPemilik()
 
+      },
 
+      // ✅ Route dengan arguments (imagePath) untuk halaman takefotoSR
+      onGenerateRoute: (settings) {
+        if (settings.name == '/takefoto') {
+          final imagePath = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (context) => TakeFoto(imagePath: imagePath),
+          );
+        }
+
+        // fallback null → error 404
+        return null;
       },
     );
   }

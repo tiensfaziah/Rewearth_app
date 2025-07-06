@@ -16,7 +16,7 @@ class ProfileAvatarWidget extends StatelessWidget {
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: NetworkImage('https://cdn.builder.io/api/v1/image/assets/TEMP/cb68a6a9e9908e1abc538ecede3794efaa25afeb?placeholderIfAbsent=true'),
+                image: AssetImage('lib/assets/images/profile.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -34,7 +34,7 @@ class ProfileAvatarWidget extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 2,
-                    offset: const Offset(0, 1),
+                    offset: Offset(0, 1),
                   ),
                 ],
               ),
@@ -44,7 +44,7 @@ class ProfileAvatarWidget extends StatelessWidget {
                   height: 9,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage('https://cdn.builder.io/api/v1/image/assets/TEMP/74b85d7bfa325487700a11dccc9c6dba3e003d4b?placeholderIfAbsent=true'),
+                      image: AssetImage('lib/assets/images/edit.png'),
                       fit: BoxFit.contain,
                     ),
                   ),

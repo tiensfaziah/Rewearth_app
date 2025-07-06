@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rewearth/screens/kameraTB.dart';
 import 'package:rewearth/widgets/kameraTB_widget.dart';
+import 'package:rewearth/screens/descTB.dart'; // import halaman descTB
 
 class DonationShippingCodeScreen2 extends StatelessWidget {
   const DonationShippingCodeScreen2({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class DonationShippingCodeScreen2 extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          const SizedBox(height: 40),
                           const Text(
                             'Kode Pengiriman Donasi',
                             textAlign: TextAlign.center,
@@ -93,7 +95,14 @@ class DonationShippingCodeScreen2 extends StatelessWidget {
                 ),
               ),
 
-              // ✅ Tombol lanjut di bawah, konsisten seperti halaman donasi desc
+              // ✅ Tombol panah kembali
+              const Positioned(
+                top: 40,
+                left: 16,
+                child: _BackToDescTBButton(),
+              ),
+
+              // ✅ Tombol lanjut
               Positioned(
                 left: 0,
                 right: 0,
@@ -136,6 +145,28 @@ class DonationShippingCodeScreen2 extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+// ✅ Komponen tombol panah kembali
+class _BackToDescTBButton extends StatelessWidget {
+  const _BackToDescTBButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const DonationDescriptionScreenUniqlo()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.black,
+        size: 24,
       ),
     );
   }

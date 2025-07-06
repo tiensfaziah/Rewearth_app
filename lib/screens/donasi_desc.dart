@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:rewearth/screens/kirimSR.dart';
 import '../widgets/weight_selector_SR.dart';
 
 class DonationDescriptionScreenSR extends StatefulWidget {
   const DonationDescriptionScreenSR({Key? key}) : super(key: key);
 
   @override
-  State<DonationDescriptionScreenSR> createState() => _DonationDescriptionScreenSRState();
+  State<DonationDescriptionScreenSR> createState() =>
+      _DonationDescriptionScreenSRState();
 }
 
-class _DonationDescriptionScreenSRState extends State<DonationDescriptionScreenSR> {
+class _DonationDescriptionScreenSRState
+    extends State<DonationDescriptionScreenSR> {
   int weight = 0;
   final TextEditingController _descriptionController = TextEditingController();
 
@@ -39,7 +42,6 @@ class _DonationDescriptionScreenSRState extends State<DonationDescriptionScreenS
           builder: (context, constraints) {
             return Stack(
               children: [
-                // ✅ Scrollable content
                 SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 100),
                   child: ConstrainedBox(
@@ -52,6 +54,22 @@ class _DonationDescriptionScreenSRState extends State<DonationDescriptionScreenS
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // ✅ Panah back aman di dalam scrollable
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const CaraMengirimBarangScreen()),
+                                );
+                              },
+                              child: const Icon(
+                                Icons.arrow_back_ios_new,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+
                             const Center(
                               child: Text(
                                 'Deskripsi Donasi',
@@ -126,7 +144,6 @@ class _DonationDescriptionScreenSRState extends State<DonationDescriptionScreenS
                                 ),
                               ),
                             ),
-
                             const SizedBox(height: 25),
 
                             const Text(
@@ -157,7 +174,7 @@ class _DonationDescriptionScreenSRState extends State<DonationDescriptionScreenS
                   ),
                 ),
 
-                // ✅ Tombol navigasi ke halaman kode donasi
+                // ✅ Tombol bawah "Dapatkan Kode"
                 Positioned(
                   left: 0,
                   right: 0,

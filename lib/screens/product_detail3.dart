@@ -17,12 +17,12 @@ class ProductDetailScreen3 extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
-              // ✅ Konten scrollable utama
+              // ✅ Konten scrollable
               SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ✅ Gambar utama + judul overlay
+                    // ✅ Gambar + overlay teks "Detail Barang"
                     Stack(
                       children: [
                         Container(
@@ -59,7 +59,7 @@ class ProductDetailScreen3 extends StatelessWidget {
                       ],
                     ),
 
-                    // ✅ Nama produk + New • For You
+                    // ✅ Nama produk + label
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       child: Row(
@@ -99,23 +99,43 @@ class ProductDetailScreen3 extends StatelessWidget {
                       ),
                     ),
 
-                    // ✅ Spesifikasi produk
+                    // ✅ Spesifikasi
                     const ProductSpecsCards3(),
 
-                    // ✅ Deskripsi produk
+                    // ✅ Deskripsi
                     const DescriptionCard3(),
 
-                    const SizedBox(height: 100), // Jarak untuk tombol bawah
+                    const SizedBox(height: 100), // buat spasi tombol bawah
                   ],
                 ),
               ),
 
-              // ✅ Tombol aksi tetap di bawah
+              // ✅ Tombol tetap di bawah
               const Positioned(
                 left: 0,
                 right: 0,
                 bottom: 20,
                 child: ActionButtonsWidget3(),
+              ),
+
+              // ✅ PANAH BACK KE BERANDA
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16,
+                left: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/beranda',
+                          (route) => false,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),

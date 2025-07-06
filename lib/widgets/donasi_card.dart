@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/kirimSR.dart'; // pastikan nama file dan class sesuai
+import '../screens/kirimSR.dart';
 
 class DonationCard extends StatelessWidget {
   final String organizationName;
@@ -44,7 +44,7 @@ class DonationCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            // Divider line
+            // Garis pembatas
             Positioned(
               left: 0,
               right: 0,
@@ -73,7 +73,7 @@ class DonationCard extends StatelessWidget {
               ),
             ),
 
-            // Title
+            // Judul
             Positioned(
               left: isSmallScreen ? 88 : 108,
               top: isSmallScreen ? 18 : 21,
@@ -89,7 +89,7 @@ class DonationCard extends StatelessWidget {
               ),
             ),
 
-            // Description
+            // Deskripsi
             Positioned(
               left: isSmallScreen ? 88 : 108,
               top: isSmallScreen ? 35 : 41,
@@ -107,37 +107,25 @@ class DonationCard extends StatelessWidget {
               ),
             ),
 
-            // Button
+            // Tombol Kirim Pakaian (non-interaktif, hanya visual)
             Positioned(
               right: isSmallScreen ? 5 : 9,
               top: 125,
-              child: GestureDetector(
-                onTap: () {
-                  if (organizationName == 'Sedekah Rombongan') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CaraMengirimBarangScreen(),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  width: isSmallScreen ? 90 : 105,
-                  height: isSmallScreen ? 18 : 20,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF6A9CFD),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Kirim Pakaian',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: isSmallScreen ? 9 : 10,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Poppins',
-                      ),
+              child: Container(
+                width: isSmallScreen ? 90 : 105,
+                height: isSmallScreen ? 18 : 20,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6A9CFD),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'Kirim Pakaian',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: isSmallScreen ? 9 : 10,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                 ),

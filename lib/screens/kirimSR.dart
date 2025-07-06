@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'donasi_desc.dart'; // Pastikan ini mengarah ke file DonationDescriptionScreen
+import 'donasi.dart'; // arahkan ke DonationScreensr
 
 class CaraMengirimBarangScreen extends StatelessWidget {
   const CaraMengirimBarangScreen({Key? key}) : super(key: key);
@@ -12,104 +12,126 @@ class CaraMengirimBarangScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            // ✅ Konten scrollable
-            SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 100),
-              child: Container(
-                width: double.infinity,
-                constraints: const BoxConstraints(maxWidth: 480),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Cara Mengirim Barang',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // ✅ Logo dan brand
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'lib/assets/images/SR.png',
-                          width: 73,
-                          height: 73,
-                          fit: BoxFit.contain,
-                        ),
-                        const SizedBox(width: 11),
-                        const Text(
-                          'Sedekah Rombongan',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 28),
-
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Pilih Lokasi Drop Point',
+            // ✅ Scrollable content
+            Positioned.fill(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 100, top: 70),
+                child: Container(
+                  width: double.infinity,
+                  constraints: const BoxConstraints(maxWidth: 480),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Cara Mengirim Barang',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
                           color: Colors.black,
+                          fontFamily: 'Poppins',
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 20),
 
-                    const DropPointCard(
-                      title: 'Kantor Pusat Sedekah Rombongan (Jogja)',
-                    ),
-                    const DropPointCard(
-                      title: 'Rumah Singgah Sedekah Rombongan Jogja',
-                    ),
+                      // ✅ Logo dan brand
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'lib/assets/images/SR.png',
+                            width: 73,
+                            height: 73,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(width: 11),
+                          const Text(
+                            'Sedekah Rombongan',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ],
+                      ),
 
-                    const SizedBox(height: 35),
+                      const SizedBox(height: 28),
 
-                    // ✅ Langkah-langkah
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: screenWidth > 360 ? 300 : double.infinity,
-                        child: const Text(
-                          '1. Pilih pakaian yang bersih dan layak pakai. Kami sarankan Anda mengelompokkannya (misalnya, pakaian dewasa, anak-anak) untuk memudahkan proses selanjutnya.\n\n'
-                              '2. Masukkan pakaian ke dalam kardus atau karung yang kuat. Pastikan tertutup rapat dan diberi label "Donasi Pakaian" agar paket Anda aman sampai tujuan.\n\n'
-                              '3. Kami akan memandu Anda memilih opsi pengiriman terbaik dan paling terjangkau ke lokasi Sedekah Rombongan. Anda akan mendapatkan resi untuk melacak paket Anda.\n\n'
-                              '4. Antarkan ke jasa pengiriman yang telah kamu pilih. Kirimkan pada alamat yang tertera.',
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Pilih Lokasi Drop Point',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 14,
                             fontFamily: 'Poppins',
                             color: Colors.black,
-                            height: 1.9,
                           ),
-                          textAlign: TextAlign.left,
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 10),
 
-                    const SizedBox(height: 10),
-                  ],
+                      const DropPointCard(
+                        title: 'Kantor Pusat Sedekah Rombongan (Jogja)',
+                      ),
+                      const DropPointCard(
+                        title: 'Rumah Singgah Sedekah Rombongan Jogja',
+                      ),
+
+                      const SizedBox(height: 35),
+
+                      // ✅ Langkah-langkah
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: screenWidth > 360 ? 300 : double.infinity,
+                          child: const Text(
+                            '1. Pilih pakaian yang bersih dan layak pakai. Kami sarankan Anda mengelompokkannya (misalnya, pakaian dewasa, anak-anak) untuk memudahkan proses selanjutnya.\n\n'
+                                '2. Masukkan pakaian ke dalam kardus atau karung yang kuat. Pastikan tertutup rapat dan diberi label "Donasi Pakaian" agar paket Anda aman sampai tujuan.\n\n'
+                                '3. Kami akan memandu Anda memilih opsi pengiriman terbaik dan paling terjangkau ke lokasi Sedekah Rombongan. Anda akan mendapatkan resi untuk melacak paket Anda.\n\n'
+                                '4. Antarkan ke jasa pengiriman yang telah kamu pilih. Kirimkan pada alamat yang tertera.',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontFamily: 'Poppins',
+                              color: Colors.black,
+                              height: 1.9,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
                 ),
               ),
             ),
 
-            // ✅ Tombol bawah seperti bottom navigation
+            // ✅ Tombol panah kembali ke halaman donasi
+            Positioned(
+              top: 20,
+              left: 16,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const DonationScreensr()),
+                  );
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+
+            // ✅ Tombol bawah ke donasi_desc
             Positioned(
               left: 0,
               right: 0,

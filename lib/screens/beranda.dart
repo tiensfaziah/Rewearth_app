@@ -7,7 +7,7 @@ import '../screens/product_detail2.dart';
 import '../screens/product_detail3.dart';
 import '../screens/product_detail4.dart';
 import '../screens/donasi.dart';
-import '../screens/voucher.dart'; // ✅ ditambahkan
+import '../screens/voucher.dart';
 
 class Beranda extends StatelessWidget {
   const Beranda({Key? key}) : super(key: key);
@@ -62,9 +62,21 @@ class Beranda extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                Image.asset('lib/assets/images/notif.png', width: 20, height: 20),
+                                // ✅ navigasi ke notif
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/notif');
+                                  },
+                                  child: Image.asset('lib/assets/images/notif.png', width: 20, height: 20),
+                                ),
                                 const SizedBox(width: 22),
-                                Image.asset('lib/assets/images/chat.png', width: 20, height: 20),
+                                // ✅ navigasi ke chat
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/chat');
+                                  },
+                                  child: Image.asset('lib/assets/images/chat.png', width: 20, height: 20),
+                                ),
                               ],
                             ),
                           ],
@@ -143,7 +155,7 @@ class Beranda extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const DonationScreen()),
+                                  MaterialPageRoute(builder: (context) => const DonationScreensr()),
                                 );
                               },
                               child: menuIcon('lib/assets/images/donasi.png', 'Donasi'),

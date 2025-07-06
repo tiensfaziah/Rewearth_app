@@ -15,11 +15,22 @@ class ClothingScreen extends StatelessWidget {
           width: double.infinity,
           constraints: const BoxConstraints(maxWidth: 480),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // 🔙 TOMBOL BACK
+              Padding(
+                padding: const EdgeInsets.only(top: 10, left: 10),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black),
+                  onPressed: () {
+                    Navigator.pop(context); // kembali ke Beranda
+                  },
+                ),
+              ),
+
               // ✅ TITLE
-              Container(
-                margin: const EdgeInsets.only(top: 15),
-                child: const Text(
+              const Center(
+                child: Text(
                   'Pakaian',
                   style: TextStyle(
                     color: Colors.black,
@@ -38,7 +49,6 @@ class ClothingScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: 30),
 
-                      // Search Bar
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: SearchBarWidget(),
@@ -46,7 +56,6 @@ class ClothingScreen extends StatelessWidget {
 
                       const SizedBox(height: 15),
 
-                      // Product Grid
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: ProductGrid(),
@@ -62,17 +71,17 @@ class ClothingScreen extends StatelessWidget {
         ),
       ),
 
-      // ✅ TOMBOL PLUS MENGAMBANG
+      // ✅ TOMBOL PLUS
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const UploadClothingScreen(),
-        ),
-      );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UploadClothingScreen(),
+            ),
+          );
         },
-        backgroundColor: const Color(0xFF6A9CFD), // biru
+        backgroundColor: const Color(0xFF6A9CFD),
         child: const Icon(Icons.add, color: Colors.white),
         elevation: 4,
         shape: const CircleBorder(),

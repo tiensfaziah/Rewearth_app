@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/kameraTB_widget.dart'; // widget khusus Uniqlo/Re-Uniqlo
+import '../widgets/kameraTB_widget.dart';
+import 'kode_donasi2.dart'; // import halaman donasi2
 
 class KameraTBScreen extends StatelessWidget {
   const KameraTBScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class KameraTBScreen extends StatelessWidget {
               children: [
                 // ✅ Konten scrollable
                 SingleChildScrollView(
-                  padding: const EdgeInsets.only(bottom: 100), // supaya tidak ketimpa tombol
+                  padding: const EdgeInsets.only(bottom: 100),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minHeight: constraints.maxHeight),
                     child: IntrinsicHeight(
@@ -25,7 +26,7 @@ class KameraTBScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                         child: const Column(
                           children: [
-                            KameratbWidget(), // isinya logo uniqlo + deskripsi
+                            KameratbWidget(),
                           ],
                         ),
                       ),
@@ -33,7 +34,14 @@ class KameraTBScreen extends StatelessWidget {
                   ),
                 ),
 
-                // ✅ Tombol Ambil Foto
+                // ✅ Tombol panah kembali (posisi atas kiri, tidak ketimpa)
+                const Positioned(
+                  top: 40,
+                  left: 16,
+                  child: _BackToDonasiCodeButton(),
+                ),
+
+                // ✅ Tombol Ambil Foto di bawah
                 Positioned(
                   left: 0,
                   right: 0,
@@ -55,7 +63,7 @@ class KameraTBScreen extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(50),
                       onTap: () {
-                        Navigator.pushNamed(context, '/takefoto');
+                        Navigator.pushNamed(context, '/camerareal');
                       },
                       child: const Center(
                         child: Text(
@@ -75,6 +83,28 @@ class KameraTBScreen extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+// ✅ Komponen tombol panah kembali
+class _BackToDonasiCodeButton extends StatelessWidget {
+  const _BackToDonasiCodeButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const DonationShippingCodeScreen2()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.black,
+        size: 24,
       ),
     );
   }

@@ -179,7 +179,7 @@ class ProductDetailScreen4 extends StatelessWidget {
                 ),
               ),
 
-              // ✅ Tombol tetap di bawah (tidak scroll)
+              // ✅ Tombol tetap di bawah
               Positioned(
                 left: 0,
                 right: 0,
@@ -219,6 +219,26 @@ class ProductDetailScreen4 extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+
+              // ✅ PANAH BACK KE BERANDA
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16,
+                left: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/beranda',
+                          (route) => false,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 24,
+                    color: Colors.black,
                   ),
                 ),
               ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/challenge.dart';
+import '../screens/tantangan.dart';
 
 class ChallengeDetailScreen extends StatelessWidget {
   final Challenge challenge;
@@ -9,6 +11,14 @@ class ChallengeDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
+    // ✅ Status bar menyatu dengan header
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,11 +49,18 @@ class ChallengeDetailScreen extends StatelessWidget {
             ),
           ),
 
+          // ✅ Panah Back ke halaman tantangan
+          const Positioned(
+            top: 40,
+            left: 16,
+            child: _BackToChallengeScreen(),
+          ),
+
           // ✅ Judul, Deskripsi, Gambar (kartu atas)
           Positioned(
             left: screenWidth > 640 ? 24 : 20,
             right: 24,
-            top: 130, // ✅ diturunkan dari 100 → 130
+            top: 130,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -173,6 +190,28 @@ class ChallengeDetailScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ✅ Komponen Tombol Panah Back
+class _BackToChallengeScreen extends StatelessWidget {
+  const _BackToChallengeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ChallengeScreen()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        color: Colors.white,
+        size: 24,
       ),
     );
   }

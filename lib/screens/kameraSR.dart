@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/kameraSR_widget.dart';
+import 'kode_donasi.dart'; // pastikan ini file DonationShippingCodeScreen
 
 class KameraSRScreen extends StatelessWidget {
   const KameraSRScreen({Key? key}) : super(key: key);
@@ -12,10 +13,11 @@ class KameraSRScreen extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return Stack(
+              clipBehavior: Clip.none, // penting agar panah tidak ketimpa
               children: [
-                // Scrollable content
+                // ✅ Scrollable content
                 SingleChildScrollView(
-                  padding: const EdgeInsets.only(bottom: 100), // agar tidak ketimpa tombol
+                  padding: const EdgeInsets.only(bottom: 100, top: 60),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minHeight: constraints.maxHeight),
                     child: IntrinsicHeight(
@@ -26,7 +28,6 @@ class KameraSRScreen extends StatelessWidget {
                         child: const Column(
                           children: [
                             DonationContentWidget(),
-                            // Tambahkan konten lain jika perlu
                           ],
                         ),
                       ),
@@ -34,7 +35,14 @@ class KameraSRScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Tombol "Ambil Foto" di bawah
+                // ✅ Panah kembali ke halaman kode donasi
+                const Positioned(
+                  top: 16,
+                  left: 16,
+                  child: _BackButtonToKodeDonasi(),
+                ),
+
+                // ✅ Tombol bawah: Ambil Foto
                 Positioned(
                   left: 0,
                   right: 0,
@@ -56,7 +64,7 @@ class KameraSRScreen extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(50),
                       onTap: () {
-                        Navigator.pushNamed(context, '/takefoto'); // 👉 Navigasi ke halaman preview foto
+                        Navigator.pushNamed(context, '/camerareal'); // ganti sesuai kebutuhan
                       },
                       child: const Center(
                         child: Text(
@@ -76,6 +84,27 @@ class KameraSRScreen extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class _BackButtonToKodeDonasi extends StatelessWidget {
+  const _BackButtonToKodeDonasi({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const DonationShippingCodeScreen()),
+        );
+      },
+      child: const Icon(
+        Icons.arrow_back_ios_new,
+        size: 20,
+        color: Colors.black,
       ),
     );
   }
