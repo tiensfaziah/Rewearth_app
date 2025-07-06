@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rewearth/screens/login_screen.dart';
 
@@ -14,6 +16,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
+  bool _isLoading = false;
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -23,6 +27,80 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  Future<void> _handleRegister() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Semua kolom wajib diisi')),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Konfirmasi password tidak sesuai')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final uid = userCredential.user?.uid;
+
+      if (uid == null) throw Exception("Gagal mendapatkan UID pengguna");
+
+      // Simpan data ke Firestore
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'nama': name,
+        'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
+        'points': 0,
+      });
+
+      if (!mounted) return;
+
+      // Tampilkan pesan berhasil
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Registrasi berhasil! Silakan login.')),
+      );
+
+      // Delay sedikit supaya pesan terbaca
+      await Future.delayed(const Duration(seconds: 1));
+
+      // Arahkan ke halaman login
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const Login()),
+              (route) => false,
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Terjadi kesalahan: ${e.toString()}')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  // ⬇️ PASTIKAN `build()` ADA DI LUAR `_handleRegister()`
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +112,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 60),
-
               const Text(
                 'Register',
                 style: TextStyle(
@@ -44,9 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontFamily: 'Poppins',
                 ),
               ),
-
               const SizedBox(height: 10),
-
               const Text(
                 'Daftarkan diri anda dan ikut berkontribusi\nuntuk bumi!',
                 textAlign: TextAlign.center,
@@ -57,10 +132,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontFamily: 'Poppins',
                 ),
               ),
-
               const SizedBox(height: 30),
 
-              // Name Field
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(
@@ -71,10 +144,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   contentPadding: const EdgeInsets.all(16),
                 ),
               ),
-
               const SizedBox(height: 16),
 
-              // Email Field
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -85,10 +156,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   contentPadding: const EdgeInsets.all(16),
                 ),
               ),
-
               const SizedBox(height: 16),
 
-              // Password Field
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -100,10 +169,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   contentPadding: const EdgeInsets.all(16),
                 ),
               ),
-
               const SizedBox(height: 16),
 
-              // Confirm Password Field
               TextField(
                 controller: _confirmPasswordController,
                 obscureText: true,
@@ -115,39 +182,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   contentPadding: const EdgeInsets.all(16),
                 ),
               ),
-
               const SizedBox(height: 28),
 
-              // Register Button
               SizedBox(
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Login()),
-                    );
-                  },
+                  onPressed: _isLoading ? null : _handleRegister,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF72A0FF),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text(
-                    'Daftar',
-                    style: TextStyle(
+                  child: Text(
+                    _isLoading ? 'Memproses...' : 'Daftar',
+                    style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
                     ),
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
 
-              // Divider
               Row(
                 children: const [
                   Expanded(child: Divider()),
@@ -161,10 +219,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Expanded(child: Divider()),
                 ],
               ),
-
               const SizedBox(height: 16),
 
-              // Google login button (pakai asset)
               Container(
                 width: double.infinity,
                 height: 48,
@@ -197,7 +253,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 40),
             ],
           ),

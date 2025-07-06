@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "508347650189",
+    "firebase_url": "https://rewearth-2931e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rewearth-2931e",
+    "storage_bucket": "rewearth-2931e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508347650189:android:c2cbf28352ff651ae592c4",
+        "android_client_info": {
+          "package_name": "com.example.rewearth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZOtHy2QZt-31dyn1fhmEdLKm0w5PAd_c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

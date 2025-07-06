@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 // ✅ Import semua screen
 import 'package:rewearth/screens/donasi_desc.dart';
@@ -35,8 +37,11 @@ import 'package:rewearth/screens/boarding.dart';
 import 'package:rewearth/screens/takefotoSR.dart';
 import 'package:rewearth/screens/rincian_donasi.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 

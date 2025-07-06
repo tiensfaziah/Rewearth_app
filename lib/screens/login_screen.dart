@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_text_styles.dart';
@@ -17,6 +18,7 @@ class Login extends StatefulWidget {
 class _LoginScreenState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -98,15 +100,47 @@ class _LoginScreenState extends State<Login> {
 
                       // Login Button
                       CustomButton(
-                        text: 'Login',
-                        onPressed: () {
-                          // Navigasi ke halaman Beranda
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Beranda(),
-                            ),
-                          );
+                        text: _isLoading ? 'Memproses...' : 'Login',
+                        onPressed: _isLoading ? null : () async {
+                          final email = _emailController.text.trim();
+                          final password = _passwordController.text.trim();
+
+                          setState(() => _isLoading = true);
+
+                          try {
+                            final userCredential = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                              email: email,
+                              password: password,
+                            );
+
+                            print('Login berhasil untuk: ${userCredential.user
+                                ?.email}');
+
+                            // Navigasi ke halaman Beranda
+                            if (!mounted) return;
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Beranda(),
+                              ),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            String message = 'Login gagal';
+                            if (e.code == 'user-not-found') {
+                              message = 'Email tidak ditemukan';
+                            } else if (e.code == 'wrong-password') {
+                              message = 'Password salah';
+                            }
+
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(message)),
+                              );
+                            }
+                          } finally {
+                            if (mounted) setState(() => _isLoading = false);
+                          }
                         },
                       ),
 
