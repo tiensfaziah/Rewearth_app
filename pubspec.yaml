@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.7
-  fluttertoast: ^8.2.4  # ✅ Tambahan untuk notifikasi toast
+  fluttertoast: ^8.2.12  # ✅ Tambahan untuk notifikasi toast
   image_picker: ^1.0.7 # atau versi terbaru yang tersedia
   camera: ^0.10.5+9
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rewearth/screens/chat.dart';
-import 'package:rewearth/screens/chatpemilik.dart';
 
 // ✅ Import semua screen
 import 'package:rewearth/screens/donasi_desc.dart';
@@ -15,24 +13,27 @@ import 'package:rewearth/screens/clothing_screen.dart';
 import 'package:rewearth/screens/video.dart';
 import 'package:rewearth/screens/kameraSR.dart';
 import 'package:rewearth/screens/takefotoSR.dart';
-import 'package:rewearth/screens/rincian_donasi.dart';
 import 'package:rewearth/screens/verifSR.dart';
 import 'package:rewearth/screens/takeback.dart';
 import 'package:rewearth/screens/descTB.dart';
 import 'package:rewearth/screens/kode_donasi2.dart';
-import 'package:rewearth/widgets/kameraTB_widget.dart';
-import 'package:rewearth/screens/tantangan.dart';
-import 'package:rewearth/screens/detail_tantangan.dart';
-import 'package:rewearth/screens/produkmu.dart';
 import 'package:rewearth/screens/kirimSR.dart';
 import 'package:rewearth/screens/takefotoTB.dart';
 import 'package:rewearth/screens/setting.dart';
 import 'package:rewearth/screens/camera_real_screen.dart';
 import 'package:rewearth/screens/notif.dart';
 import 'package:rewearth/screens/chat.dart';
+import 'package:rewearth/screens/chatpemilik.dart';
+import 'package:rewearth/screens/tantangan.dart';
+import 'package:rewearth/screens/detail_tantangan.dart';
+import 'package:rewearth/screens/produkmu.dart';
 
 // ✅ Import halaman onboarding
 import 'package:rewearth/screens/boarding.dart';
+
+// ✅ Import halaman yang butuh arguments
+import 'package:rewearth/screens/takefotoSR.dart';
+import 'package:rewearth/screens/rincian_donasi.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,7 +68,7 @@ class MyApp extends StatelessWidget {
         imageAsset: 'lib/assets/images/logoAPK.png',
       ),
 
-      // ✅ Route normal tanpa arguments
+      // ✅ Route normal (tanpa arguments)
       routes: {
         '/login': (context) => const Login(),
         '/beranda': (context) => const Beranda(),
@@ -78,7 +79,6 @@ class MyApp extends StatelessWidget {
         '/donasi_desc': (context) => const DonationDescriptionScreenSR(),
         '/donation_code': (context) => const DonationShippingCodeScreen(),
         '/kamera_sr': (context) => const KameraSRScreen(),
-        '/rincian_donasi': (context) => const DonationDetailsScreen(),
         '/verifikasi': (context) => const VerificationSuccessScreen(),
         '/takeback': (context) => const TakeBackScreen(),
         '/donasi_desc_uniqlo': (context) => const DonationDescriptionScreenUniqlo(),
@@ -93,12 +93,12 @@ class MyApp extends StatelessWidget {
         '/camerareal': (context) => const CameraRealScreen(),
         '/notif': (context) => const notifScreen(),
         '/chat': (context) => const chatScreen(),
-        '/chatpemilik': (context) => const ChatPemilik()
-
+        '/chatpemilik': (context) => const ChatPemilik(),
       },
 
-      // ✅ Route dengan arguments (imagePath) untuk halaman takefotoSR
+      // ✅ Route dengan arguments
       onGenerateRoute: (settings) {
+        // → halaman preview setelah kamera asli
         if (settings.name == '/takefoto') {
           final imagePath = settings.arguments as String;
           return MaterialPageRoute(
@@ -106,7 +106,14 @@ class MyApp extends StatelessWidget {
           );
         }
 
-        // fallback null → error 404
+        // → halaman rincian donasi (pakai gambar hasil kamera)
+        if (settings.name == '/rincian_donasi') {
+          final imagePath = settings.arguments as String;
+          return MaterialPageRoute(
+            builder: (context) => DonationDetailsScreen(imagePath: imagePath),
+          );
+        }
+
         return null;
       },
     );

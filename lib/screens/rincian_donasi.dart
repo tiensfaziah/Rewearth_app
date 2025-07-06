@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:rewearth/screens/verifSR.dart';
+
 class DonationDetailsScreen extends StatefulWidget {
-  const DonationDetailsScreen({Key? key}) : super(key: key);
+  final String imagePath;
+
+  const DonationDetailsScreen({Key? key, required this.imagePath}) : super(key: key);
 
   @override
   State<DonationDetailsScreen> createState() => _DonationDetailsScreenState();
@@ -20,10 +23,13 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final imageFile = File(widget.imagePath);
+    final bool imageExists = imageFile.existsSync();
+
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // Tombol di bawah
+      // ✅ Tombol bawah
       bottomNavigationBar: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         height: 50,
@@ -51,7 +57,6 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
               return;
             }
 
-            // Navigasi ke halaman verifikasi
             Navigator.pushNamed(context, '/verifikasi');
           },
           child: const Center(
@@ -105,17 +110,23 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
 
                 const SizedBox(height: 15),
 
-                // Gambar barang lokal
+                // ✅ Foto dari kamera
                 Container(
                   width: double.infinity,
                   height: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    image: const DecorationImage(
-                      image: AssetImage('lib/assets/images/preview.png'),
+                    color: Colors.grey[200],
+                    image: imageExists
+                        ? DecorationImage(
+                      image: FileImage(imageFile),
                       fit: BoxFit.cover,
-                    ),
+                    )
+                        : null,
                   ),
+                  child: !imageExists
+                      ? const Center(child: Text('Foto tidak ditemukan'))
+                      : null,
                 ),
 
                 const SizedBox(height: 25),
@@ -172,7 +183,6 @@ class _DonationDetailsScreenState extends State<DonationDetailsScreen> {
                     height: 2,
                   ),
                 ),
-
                 const SizedBox(height: 10),
 
                 Container(
