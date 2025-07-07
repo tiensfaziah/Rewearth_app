@@ -1,5 +1,9 @@
+import 'dart:io'; // ✅ TAMBAHAN
 import 'package:flutter/material.dart';
-import '../widgets/back_button_widget.dart'; // ⬅️ pastikan file ini ada
+import 'package:image_picker/image_picker.dart'; // ✅ TAMBAHAN
+import 'package:firebase_auth/firebase_auth.dart'; // ✅ TAMBAHAN
+import 'package:cloud_firestore/cloud_firestore.dart'; // ✅ TAMBAHAN
+import '../widgets/back_button_widget.dart';
 
 class UploadClothingScreen extends StatefulWidget {
   const UploadClothingScreen({Key? key}) : super(key: key);
@@ -15,6 +19,8 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
   final TextEditingController _materialController = TextEditingController();
   final TextEditingController _colorController = TextEditingController();
 
+  File? _selectedImage; // ✅ TAMBAHAN
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -25,6 +31,16 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
     super.dispose();
   }
 
+  // ✅ TAMBAHAN: Fungsi untuk memilih gambar
+  Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +48,13 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            const CustomBackButton(), // ⬅️ tombol back
+            const CustomBackButton(),
 
-            // Isi halaman
             Container(
               constraints: const BoxConstraints(maxWidth: 480),
-              margin: const EdgeInsets.only(top: 50), // supaya konten tidak ketimpa tombol back
+              margin: const EdgeInsets.only(top: 50),
               child: Column(
                 children: [
-                  // Title
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     child: const Text(
@@ -54,7 +68,6 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
                     ),
                   ),
 
-                  // Main content
                   Expanded(
                     child: Container(
                       margin: const EdgeInsets.only(top: 26),
@@ -63,20 +76,31 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Photo upload section
+                            // 🔁 DIUBAH: Upload Gambar
                             Row(
                               children: [
-                                Container(
-                                  width: 70,
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: const Icon(
-                                    Icons.add_a_photo,
-                                    size: 30,
-                                    color: Colors.grey,
+                                GestureDetector(
+                                  onTap: _pickImage, // ✅ TAMBAHAN
+                                  child: Container(
+                                    width: 70,
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(8),
+                                      image: _selectedImage != null
+                                          ? DecorationImage(
+                                        image: FileImage(_selectedImage!),
+                                        fit: BoxFit.cover,
+                                      )
+                                          : null,
+                                    ),
+                                    child: _selectedImage == null
+                                        ? const Icon(
+                                      Icons.add_a_photo,
+                                      size: 30,
+                                      color: Colors.grey,
+                                    )
+                                        : null,
                                   ),
                                 ),
                                 const SizedBox(width: 27),
@@ -94,12 +118,10 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
                               ],
                             ),
 
-                            // Nama Barang
                             const SizedBox(height: 26),
                             _buildInputLabel('Nama Barang'),
                             _buildTextField(_nameController, 'contoh: vest pria'),
 
-                            // Deskripsi Singkat Barang
                             const SizedBox(height: 15),
                             _buildInputLabel('Deskripsi Singkat Barang'),
                             _buildTextField(
@@ -109,22 +131,18 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
                               customPadding: const EdgeInsets.fromLTRB(28, 14, 28, 58),
                             ),
 
-                            // Ukuran
                             const SizedBox(height: 15),
                             _buildInputLabel('Ukuran'),
                             _buildTextField(_sizeController, 'contoh: M/L'),
 
-                            // Bahan
                             const SizedBox(height: 15),
                             _buildInputLabel('Bahan'),
                             _buildTextField(_materialController, 'contoh: Katun'),
 
-                            // Warna
                             const SizedBox(height: 15),
                             _buildInputLabel('Warna'),
                             _buildTextField(_colorController, 'contoh: Hitam'),
 
-                            // Upload Button
                             const SizedBox(height: 23),
                             Container(
                               width: double.infinity,
@@ -140,7 +158,7 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
                                 ],
                               ),
                               child: ElevatedButton(
-                                onPressed: _handleUpload,
+                                onPressed: _handleUpload, // 🔁 DIUBAH
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF6A9CFD),
                                   elevation: 0,
@@ -218,23 +236,36 @@ class _UploadClothingScreenState extends State<UploadClothingScreen> {
             fontFamily: 'Poppins',
           ),
           border: InputBorder.none,
-          contentPadding: customPadding ??
-              const EdgeInsets.symmetric(horizontal: 28, vertical: 15),
+          contentPadding: customPadding ?? const EdgeInsets.symmetric(horizontal: 28, vertical: 15),
         ),
       ),
     );
   }
 
-  void _handleUpload() {
+  // 🔁 DIUBAH: Upload ke Firestore, simpan path lokal
+  void _handleUpload() async {
+    if (_selectedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Pilih gambar terlebih dahulu.")),
+      );
+      return;
+    }
+
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
     final formData = {
+      'userId': uid,
       'name': _nameController.text,
       'description': _descriptionController.text,
       'size': _sizeController.text,
       'material': _materialController.text,
       'color': _colorController.text,
+      'imagePath': _selectedImage!.path, // ✅ SIMPAN LOKAL PATH
+      'createdAt': Timestamp.now(),
     };
 
-    print('Upload data: $formData');
+    await FirebaseFirestore.instance.collection('products').add(formData); // ✅ SIMPAN KE FIRESTORE
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(

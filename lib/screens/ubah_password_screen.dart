@@ -14,21 +14,44 @@ class _UbahPasswordScreenState extends State<UbahPasswordScreen> {
 
   void _ubahPassword() async {
     final newPassword = _passwordController.text.trim();
-    if (newPassword.isEmpty) return;
+    if (newPassword.isEmpty || newPassword.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password harus minimal 6 karakter')),
+      );
+      return;
+    }
 
     setState(() => _isLoading = true);
     try {
       await FirebaseAuth.instance.currentUser?.updatePassword(newPassword);
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Password berhasil diubah')),
+          const SnackBar(
+            content: Text('Password berhasil diubah'),
+            backgroundColor: Colors.green,
+          ),
         );
         Navigator.pop(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (mounted) {
+        String errorMessage = 'Gagal mengubah password';
+
+        if (e.code == 'requires-recent-login') {
+          errorMessage =
+          'Demi keamanan, silakan login ulang terlebih dahulu lalu coba lagi.';
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+        );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gagal mengubah password')),
+          const SnackBar(
+              content: Text('Terjadi kesalahan'), backgroundColor: Colors.red),
         );
       }
     }
@@ -40,7 +63,8 @@ class _UbahPasswordScreenState extends State<UbahPasswordScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Ubah Password', style: TextStyle(fontFamily: 'Poppins')),
+        title:
+        const Text('Ubah Password', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: const Color(0xFF6A9CFD),
         foregroundColor: Colors.white,
       ),

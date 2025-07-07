@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import '../widgets/profil_settings.dart';
-import '../widgets/info_field_widget_settings.dart';
 import '../widgets/menu_item_widget_settings.dart';
 import '../screens/login_screen.dart';
 import '../screens/riwayat.dart';
@@ -17,13 +17,60 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  final TextEditingController _nameController = TextEditingController(text: 'El Timiji');
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    final doc = await _firestore.collection('users').doc(user.uid).get();
+    if (doc.exists) {
+      final data = doc.data()!;
+      _nameController.text = data['nama'] ?? '';
+      _emailController.text = data['email'] ?? '';
+      _phoneController.text = data['phone'] ?? '';
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _updateField(String field, String value) async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    try {
+      // Update Firestore
+      await _firestore.collection('users').doc(user.uid).update({field: value});
+
+      // Jika field email, update juga di Firebase Auth
+      if (field == 'email') {
+        await user.updateEmail(value);
+      }
+    } catch (e) {
+      debugPrint("Gagal update $field: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -60,21 +107,38 @@ class _SettingsState extends State<Settings> {
                   ),
                   const SizedBox(height: 7),
 
+                  // ✅ Nama
                   TextField(
                     controller: _nameController,
                     decoration: const InputDecoration(
                       labelText: 'Nama',
                       border: OutlineInputBorder(),
                     ),
+                    onChanged: (value) => _updateField('nama', value),
                   ),
                   const SizedBox(height: 10),
 
-                  const InfoFieldWidget(label: 'Nomor Telepon', value: '08123456789'),
+                  // ✅ Nomor Telepon
+                  TextField(
+                    controller: _phoneController,
+                    decoration: const InputDecoration(
+                      labelText: 'Nomor Telepon',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.phone,
+                    onChanged: (value) => _updateField('phone', value),
+                  ),
                   const SizedBox(height: 10),
-                  const InfoFieldWidget(
-                    label: 'Email',
-                    value: 'eltimiji707197@gmail.com',
-                    isEmail: true,
+
+                  // ✅ Email
+                  TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) => _updateField('email', value),
                   ),
                   const SizedBox(height: 29),
 
@@ -165,10 +229,9 @@ class _SettingsState extends State<Settings> {
                   ),
                   const SizedBox(height: 14),
 
-                  // Logout manual tanpa pakai MenuItemWidget
                   GestureDetector(
                     onTap: () async {
-                      await FirebaseAuth.instance.signOut();
+                      await _auth.signOut();
                       if (!mounted) return;
                       Navigator.pushAndRemoveUntil(
                         context,

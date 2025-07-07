@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -5,6 +6,7 @@ class ProductCard extends StatelessWidget {
   final String title;
   final String timeAgo;
   final VoidCallback? onDelete;
+  final bool isLocal;
 
   const ProductCard({
     Key? key,
@@ -12,6 +14,7 @@ class ProductCard extends StatelessWidget {
     required this.title,
     required this.timeAgo,
     this.onDelete,
+    this.isLocal = false,
   }) : super(key: key);
 
   void _showDeleteDialog(BuildContext context) {
@@ -41,6 +44,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLocal = imagePath.startsWith('/');
     return SizedBox(
       width: 169,
       height: 266,
@@ -53,7 +57,9 @@ class ProductCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
-                image: AssetImage(imagePath),
+                image: imagePath.startsWith('/') // file lokal?
+                    ? FileImage(File(imagePath)) as ImageProvider
+                    : AssetImage(imagePath),
                 fit: BoxFit.cover,
               ),
             ),

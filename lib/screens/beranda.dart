@@ -54,7 +54,7 @@ class Beranda extends StatelessWidget {
                                 Image.asset('lib/assets/images/Coin.png', width: 21, height: 21),
                                 const SizedBox(width: 6),
                                 const Text(
-                                  '2560',
+                                  '0',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 13,
